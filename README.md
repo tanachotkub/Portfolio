@@ -2,7 +2,7 @@
 
 Personal portfolio website of **Kennys** — a Fullstack Developer passionate about building web applications that are both functional and visually appealing.
 
-🔗 **Live Site:** [portfolio-five-steel-twerx7swct.vercel.app](https://portfolio-five-steel-twerx7swct.vercel.app)
+🔗 **Live Site:** [tanachot.vercel.app](https://tanachot.vercel.app)
 
 ---
 
