@@ -3,7 +3,6 @@ import ScrollReveal from "@/components/ScrollReveal"
 import { useState } from "react"
 import emailjs from "@emailjs/browser"
 
-
 const CONTACT_INFO = [
   {
     icon: (
@@ -37,18 +36,11 @@ export default function ContactPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
-
     try {
       await emailjs.send(
         process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
         process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!,
-        {
-          from_name: form.name,
-          from_email: form.email,
-          subject: form.subject,
-          message: form.message,
-          to_email: "tanachot2004@gmail.com",
-        },
+        { from_name: form.name, from_email: form.email, subject: form.subject, message: form.message, to_email: "tanachot2004@gmail.com" },
         process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!
       )
       setSent(true)
@@ -60,97 +52,138 @@ export default function ContactPage() {
     }
   }
 
-
   return (
-    <main className="pt-16">
-      <section className="mesh-bg py-20">
-        <div className="max-w-6xl mx-auto px-6 text-center">
-          <p className="text-blue-600 font-semibold text-sm uppercase tracking-widest mb-2">Get In Touch</p>
-          <h1 className="font-display font-extrabold text-5xl text-slate-900 mb-4">
-            {"Let's Work "}<span className="text-blue-600">Together</span>
+    <main className="pt-16 w-full overflow-x-hidden">
+
+      {/* ───────────── Hero ───────────── */}
+      <section className="mesh-bg py-12 sm:py-16 md:py-20">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <p className="text-blue-600 font-semibold text-xs sm:text-sm uppercase tracking-widest mb-2">
+            Get In Touch
+          </p>
+          <h1 className="font-display font-extrabold text-3xl sm:text-4xl md:text-5xl text-slate-900 mb-3 sm:mb-4 leading-tight">
+            {"Let's Work "}
+            <span className="text-blue-600">Together</span>
           </h1>
-          <p className="text-slate-500 max-w-lg mx-auto leading-relaxed">
+          <p className="text-slate-500 text-sm sm:text-base max-w-lg mx-auto leading-relaxed px-2">
             มีโปรเจคในใจ? พูดคุยกันได้เลยครับ ยินดีร่วมงานทุกประเภท
           </p>
         </div>
       </section>
 
-      <section className="py-20 bg-white">
-        <div className="max-w-4xl mx-auto px-6">
+      {/* ───────────── Content ───────────── */}
+      <section className="py-12 sm:py-16 md:py-20 bg-white">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <ScrollReveal>
-            <div className="grid md:grid-cols-5 gap-8">
-              {/* Contact info */}
-              <div className="md:col-span-2 space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-5 gap-6 sm:gap-8">
+
+              {/* ── Contact info (left) ── */}
+              <div className="md:col-span-2 space-y-3 sm:space-y-4">
                 {CONTACT_INFO.map(c => (
-                  <div key={c.label} className="card-hover bg-white rounded-3xl p-6 border border-slate-100 shadow-sm flex items-center gap-4">
-                    <div className={`w-12 h-12 ${c.bg} rounded-2xl flex items-center justify-center flex-shrink-0`}>
+                  <div
+                    key={c.label}
+                    className="card-hover bg-white rounded-3xl p-4 sm:p-6 border border-slate-100 shadow-sm flex items-center gap-3 sm:gap-4"
+                  >
+                    <div className={`w-10 h-10 sm:w-12 sm:h-12 ${c.bg} rounded-2xl flex items-center justify-center flex-shrink-0`}>
                       {c.icon}
                     </div>
-                    <div>
+                    <div className="min-w-0">
                       <div className="text-xs text-slate-400 font-medium">{c.label}</div>
                       {c.href ? (
-                        <a href={c.href} target={c.href.startsWith("http") ? "_blank" : "_self"} rel="noopener noreferrer"
-                          className="font-semibold text-slate-800 text-sm hover:text-blue-600 transition-colors">
+                        <a
+                          href={c.href}
+                          target={c.href.startsWith("http") ? "_blank" : "_self"}
+                          rel="noopener noreferrer"
+                          className="font-semibold text-slate-800 text-xs sm:text-sm hover:text-blue-600 transition-colors break-all"
+                        >
                           {c.value}
                         </a>
                       ) : (
-                        <div className="font-semibold text-slate-800 text-sm">{c.value}</div>
+                        <div className="font-semibold text-slate-800 text-xs sm:text-sm break-all">
+                          {c.value}
+                        </div>
                       )}
                     </div>
                   </div>
                 ))}
 
-                <div className="bg-gradient-to-br from-blue-600 to-indigo-700 rounded-3xl p-6 text-white">
-                  <h3 className="font-display font-bold text-lg mb-2">Response Time</h3>
-                  <p className="text-blue-100 text-sm leading-relaxed">
+                <div className="bg-gradient-to-br from-blue-600 to-indigo-700 rounded-3xl p-5 sm:p-6 text-white">
+                  <h3 className="font-display font-bold text-base sm:text-lg mb-2">Response Time</h3>
+                  <p className="text-blue-100 text-xs sm:text-sm leading-relaxed">
                     ปกติจะตอบกลับภายใน 24 ชั่วโมงครับ
                     ถ้าเร่งด่วนสามารถติดต่อผ่าน Email ได้เลย
                   </p>
                 </div>
               </div>
 
-              {/* Form */}
-              <div className="md:col-span-3 bg-white rounded-3xl p-8 border border-slate-100 shadow-sm">
+              {/* ── Form (right) ── */}
+              <div className="md:col-span-3 bg-white rounded-3xl p-5 sm:p-8 border border-slate-100 shadow-sm">
                 {sent ? (
                   <div className="h-full flex flex-col items-center justify-center text-center py-8 space-y-4">
-                    <div className="text-5xl">🎉</div>
-                    <h3 className="font-display font-bold text-xl text-slate-800">ส่งข้อความสำเร็จ!</h3>
+                    <div className="text-4xl sm:text-5xl">🎉</div>
+                    <h3 className="font-display font-bold text-lg sm:text-xl text-slate-800">
+                      ส่งข้อความสำเร็จ!
+                    </h3>
                     <p className="text-slate-500 text-sm">จะติดต่อกลับโดยเร็วที่สุดครับ</p>
-                    <button onClick={() => { setSent(false); setForm({ name: "", email: "", subject: "", message: "" }) }}
-                      className="text-blue-600 hover:text-blue-700 text-sm font-semibold">
+                    <button
+                      onClick={() => { setSent(false); setForm({ name: "", email: "", subject: "", message: "" }) }}
+                      className="text-blue-600 hover:text-blue-700 text-sm font-semibold"
+                    >
                       ส่งข้อความใหม่
                     </button>
                   </div>
                 ) : (
-                  <form onSubmit={handleSubmit} className="space-y-4">
-                    <div className="grid grid-cols-2 gap-4">
+                  <form onSubmit={handleSubmit} className="space-y-3 sm:space-y-4">
+                    {/* Name + Email row — stack on mobile */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                       <div>
-                        <label className="text-xs font-semibold text-slate-600 uppercase tracking-wide mb-1.5 block">ชื่อ *</label>
-                        <input required type="text" placeholder="Your Name" value={form.name}
+                        <label className="text-xs font-semibold text-slate-600 uppercase tracking-wide mb-1.5 block">
+                          ชื่อ *
+                        </label>
+                        <input
+                          required type="text" placeholder="Your Name" value={form.name}
                           onChange={e => setForm(f => ({ ...f, name: e.target.value }))}
-                          className="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-50 transition-all" />
+                          className="w-full border border-slate-200 rounded-xl px-3 sm:px-4 py-2.5 sm:py-3 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-50 transition-all"
+                        />
                       </div>
                       <div>
-                        <label className="text-xs font-semibold text-slate-600 uppercase tracking-wide mb-1.5 block">Email *</label>
-                        <input required type="email" placeholder="your@email.com" value={form.email}
+                        <label className="text-xs font-semibold text-slate-600 uppercase tracking-wide mb-1.5 block">
+                          Email *
+                        </label>
+                        <input
+                          required type="email" placeholder="your@email.com" value={form.email}
                           onChange={e => setForm(f => ({ ...f, email: e.target.value }))}
-                          className="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-50 transition-all" />
+                          className="w-full border border-slate-200 rounded-xl px-3 sm:px-4 py-2.5 sm:py-3 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-50 transition-all"
+                        />
                       </div>
                     </div>
+
                     <div>
-                      <label className="text-xs font-semibold text-slate-600 uppercase tracking-wide mb-1.5 block">หัวข้อ</label>
-                      <input type="text" placeholder="Project Inquiry" value={form.subject}
+                      <label className="text-xs font-semibold text-slate-600 uppercase tracking-wide mb-1.5 block">
+                        หัวข้อ
+                      </label>
+                      <input
+                        type="text" placeholder="Project Inquiry" value={form.subject}
                         onChange={e => setForm(f => ({ ...f, subject: e.target.value }))}
-                        className="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-50 transition-all" />
+                        className="w-full border border-slate-200 rounded-xl px-3 sm:px-4 py-2.5 sm:py-3 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-50 transition-all"
+                      />
                     </div>
+
                     <div>
-                      <label className="text-xs font-semibold text-slate-600 uppercase tracking-wide mb-1.5 block">ข้อความ *</label>
-                      <textarea required rows={5} placeholder="Tell me about your project..." value={form.message}
+                      <label className="text-xs font-semibold text-slate-600 uppercase tracking-wide mb-1.5 block">
+                        ข้อความ *
+                      </label>
+                      <textarea
+                        required rows={5} placeholder="Tell me about your project..." value={form.message}
                         onChange={e => setForm(f => ({ ...f, message: e.target.value }))}
-                        className="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-50 transition-all resize-none" />
+                        className="w-full border border-slate-200 rounded-xl px-3 sm:px-4 py-2.5 sm:py-3 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-50 transition-all resize-none"
+                      />
                     </div>
-                    <button type="submit" disabled={loading}
-                      className="w-full bg-blue-600 hover:bg-blue-700 disabled:opacity-60 text-white font-semibold py-3.5 rounded-xl transition-all hover:shadow-lg hover:shadow-blue-200 flex items-center justify-center gap-2">
+
+                    <button
+                      type="submit" disabled={loading}
+                      className="w-full bg-blue-600 hover:bg-blue-700 disabled:opacity-60 text-white font-semibold py-3 sm:py-3.5 rounded-xl transition-all hover:shadow-lg hover:shadow-blue-200 flex items-center justify-center gap-2 text-sm sm:text-base"
+                    >
                       {loading ? "กำลังส่ง..." : "Send Message"}
                       {!loading && (
                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

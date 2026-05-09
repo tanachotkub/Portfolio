@@ -1,26 +1,73 @@
 "use client"
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 
-export default function TypedText({ words }: { words: string[] }) {
-  const [display, setDisplay] = useState("")
-  const [wIdx, setWIdx] = useState(0)
+interface Props {
+  words: string[]
+  /** Typing speed in ms per character (default 110) */
+  typeSpeed?: number
+  /** Deleting speed in ms per character (default 60) */
+  deleteSpeed?: number
+  /** Pause duration after finishing a word in ms (default 1800) */
+  pauseAfter?: number
+}
+
+export default function TypedText({
+  words,
+  typeSpeed = 110,
+  deleteSpeed = 60,
+  pauseAfter = 1800,
+}: Props) {
+  const [display,  setDisplay]  = useState("")
+  const [wIdx,     setWIdx]     = useState(0)
   const [deleting, setDeleting] = useState(false)
 
-  useEffect(() => {
-    const word = words[wIdx]
-    let timeout: ReturnType<typeof setTimeout>
-    if (!deleting && display === word) {
-      timeout = setTimeout(() => setDeleting(true), 1800)
-    } else if (deleting && display === "") {
-      setDeleting(false)
-      setWIdx(i => (i + 1) % words.length)
-    } else {
-      timeout = setTimeout(() => {
-        setDisplay(deleting ? word.slice(0, display.length - 1) : word.slice(0, display.length + 1))
-      }, deleting ? 60 : 110)
-    }
-    return () => clearTimeout(timeout)
-  }, [display, deleting, wIdx, words])
+  // Stable ref so effect doesn't need words in its dep array
+  const wordsRef = useRef(words)
+  useEffect(() => { wordsRef.current = words }, [words])
 
-  return <span className="cursor">{display}</span>
+  // Respect reduced-motion — skip animation, just show the first word
+  const prefersReduced =
+    typeof window !== "undefined" &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches
+
+  useEffect(() => {
+    if (prefersReduced) {
+      setDisplay(wordsRef.current[0] ?? "")
+      return
+    }
+
+    const word = wordsRef.current[wIdx] ?? ""
+
+    // Finished typing — pause then start deleting
+    if (!deleting && display === word) {
+      const t = setTimeout(() => setDeleting(true), pauseAfter)
+      return () => clearTimeout(t)
+    }
+
+    // Finished deleting — move to next word
+    if (deleting && display === "") {
+      setDeleting(false)
+      setWIdx(i => (i + 1) % wordsRef.current.length)
+      return
+    }
+
+    // Type or delete one character
+    const speed = deleting ? deleteSpeed : typeSpeed
+    const next  = deleting
+      ? word.slice(0, display.length - 1)
+      : word.slice(0, display.length + 1)
+
+    const t = setTimeout(() => setDisplay(next), speed)
+    return () => clearTimeout(t)
+  }, [display, deleting, wIdx, typeSpeed, deleteSpeed, pauseAfter, prefersReduced])
+
+  return (
+    <span
+      className="cursor"
+      aria-label={wordsRef.current[wIdx]}   // screen readers see the full word
+      aria-live="polite"
+    >
+      {display}
+    </span>
+  )
 }
