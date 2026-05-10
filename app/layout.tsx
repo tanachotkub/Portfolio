@@ -49,7 +49,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           >
             {/* Logo */}
             <div className="font-display font-bold text-white text-base sm:text-lg shrink-0">
-              dev<span className="text-blue-400">.portfolio</span>
+              tanachot<span className="text-blue-400">.vercel.app</span>
             </div>
 
             {/* Copyright */}

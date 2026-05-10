@@ -56,7 +56,7 @@ export default function Navbar() {
             href="/"
             className="font-display font-bold text-lg sm:text-xl text-blue-600 tracking-tight shrink-0"
           >
-            dev<span className="text-slate-800">.portfolio</span>
+            tanachot<span className="text-slate-800">.vercel.app</span>
           </Link>
 
           {/* Desktop nav */}
