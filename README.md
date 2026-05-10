@@ -1,4 +1,4 @@
-# 🖥️ dev.portfolio
+# 🖥️ tanachot.vercel.app
 
 Personal portfolio website of **Kennys** — a Fullstack Developer passionate about building web applications that are both functional and visually appealing.
 
